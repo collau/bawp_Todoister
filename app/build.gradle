@@ -3,12 +3,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.bawp.todoister"
         minSdkVersion 29
-        targetSdkVersion 30
+        compileSdk 31
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
 
@@ -25,6 +25,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    namespace 'com.bawp.todoister'
 }
 
 dependencies {
