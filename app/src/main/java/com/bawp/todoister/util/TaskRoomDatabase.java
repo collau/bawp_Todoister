@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.bawp.todoister.data.TaskDAO;
@@ -18,6 +19,7 @@ import java.util.concurrent.Executors;
  * Created by junyi on 17/9/22
  */
 @Database(entities = {Task.class}, version = 1, exportSchema = false)
+@TypeConverters({Converters.class})
 public abstract class TaskRoomDatabase extends RoomDatabase {
     // Create instance variables
     public static final int NUMBER_OF_THREADS = 4;
@@ -32,7 +34,7 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             databaseWriterExecutor.execute(() -> {
                 //invoke DAO and write
                 TaskDAO taskDAO = INSTANCE.taskDAO();
-                taskDAO.deleteAll(); // clean slate!!
+//                taskDAO.deleteAll(); // clean slate!!
             });
         }
     };
