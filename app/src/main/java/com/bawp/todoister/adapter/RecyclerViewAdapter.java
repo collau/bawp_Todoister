@@ -1,5 +1,6 @@
 package com.bawp.todoister.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bawp.todoister.R;
 import com.bawp.todoister.model.Task;
+import com.bawp.todoister.util.Utils;
 import com.google.android.material.chip.Chip;
 
 import java.util.List;
@@ -39,6 +41,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         Task task = taskList.get(position);
         holder.taskName.setText(task.getTaskId() + " " + task.getTask());
 
+        String formattedDate = Utils.formatDate(task.getDueDate());
+//        Log.e("DATE", task.getDueDate().toString());
+//        holder.todayChip.setText(task.getDueDate().toString());
+        holder.todayChip.setText(formattedDate);
+
     }
 
     @Override
@@ -55,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(itemView);
             radioButton = itemView.findViewById(R.id.todo_radio_button);
             taskName = itemView.findViewById(R.id.todo_row_todo);
-            todayChip = itemView.findViewById(R.id.today_chip);
+            todayChip = itemView.findViewById(R.id.todo_row_chip);
         }
     }
 }
