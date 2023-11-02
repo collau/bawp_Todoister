@@ -1,7 +1,9 @@
 package com.bawp.todoister;
 
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class BottomSheetFragment extends BottomSheetDialogFragment {
     private EditText enterTodo;
@@ -34,6 +37,8 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     private ImageButton buttonSave;
     private CalendarView calendarView;
     private Group calendarGroup;
+    private Date dueDate;
+    Calendar calendar = Calendar.getInstance();
 
     public BottomSheetFragment() {
 
@@ -64,12 +69,29 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        buttonCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calendarGroup.setVisibility(calendarGroup.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
+
+        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+            @Override
+            public void onSelectedDayChange(@NonNull CalendarView calendarView, int year, int month, int date) {
+//                Log.e("CAL", "i== "+ i + " i1== " + i1 + " i2== " + i2);
+                calendar.clear();
+                calendar.set(year, month, date);
+                dueDate = calendar.getTime();
+            }
+        });
+
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String task = enterTodo.getText().toString().trim();
-                if (!TextUtils.isEmpty(task)) {
-                    Task myTask = new Task(task, Priority.HIGH, Calendar.getInstance().getTime(), Calendar.getInstance().getTime(), false);
+                if (!TextUtils.isEmpty(task) && dueDate != null) {
+                    Task myTask = new Task(task, Priority.HIGH, dueDate, Calendar.getInstance().getTime(), false);
                     TaskViewModel.insert(myTask);
                 }
             }
