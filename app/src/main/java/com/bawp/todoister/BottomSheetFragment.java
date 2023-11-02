@@ -27,7 +27,7 @@ import androidx.navigation.fragment.NavHostFragment;
 import java.util.Calendar;
 import java.util.Date;
 
-public class BottomSheetFragment extends BottomSheetDialogFragment {
+public class BottomSheetFragment extends BottomSheetDialogFragment implements View.OnClickListener {
     private EditText enterTodo;
     private ImageButton buttonCalendar;
     private ImageButton buttonPriority;
@@ -62,6 +62,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         Chip chipToday = view.findViewById(R.id.today_chip);
         Chip chipTomorrow = view.findViewById(R.id.tomorrow_chip);
         Chip chipNextWeek = view.findViewById(R.id.next_week_chip);
+        chipToday.setOnClickListener(this);
+        chipTomorrow.setOnClickListener(this);
+        chipNextWeek.setOnClickListener(this);
 
         return view;
     }
@@ -97,5 +100,24 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.today_chip) {
+            // set data for today
+            calendar.add(Calendar.DAY_OF_YEAR, 0);
+            dueDate = calendar.getTime();
+        } else if (id == R.id.tomorrow_chip) {
+            // set data for tomorrow
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            dueDate = calendar.getTime();
+        } else if (id == R.id.next_week_chip) {
+            // set data for next week
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+            dueDate = calendar.getTime();
+        }
+        Log.e("TIME", "onclick: " + dueDate.toString());
     }
 }
